@@ -13,7 +13,7 @@ export const App = () => {
   return (
     <Container className="App">
       <StyledNav>
-        <StyledNavLink to="/" end>Home</StyledNavLink>
+        <StyledNavLink to="/">Home</StyledNavLink>
         <StyledNavLink to="/movies">Movies</StyledNavLink>
       </StyledNav>
       <Suspense fallback={<Loader />}>
