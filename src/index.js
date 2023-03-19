@@ -6,10 +6,7 @@ import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter
-    // перед вивантаженням на гітхаб
-    // basename="/goit-react-homework-05/"
-    >
+    <BrowserRouter basename="/goit-react-homework-05/">
       <App />
     </BrowserRouter>
   </React.StrictMode>
