@@ -1,19 +1,32 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
-import { useAxios } from 'hooks/useAxios';
-import * as Configs from '../../services/moviedbConfigs';
+import * as MovieAPI from '../../services/moviedbAPI';
 
 import Loader from 'components/Loader/Loader';
 
 export default function Reviews() {
-    const { isLoading, data, error, fetchData } = useAxios();
+  const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [data, setData] = useState([]);
     const { movieId } = useParams();
 
     useEffect(() => {
-        if (!movieId) return;
+      if (!movieId) return;
+      const fetchReviews = async (movieId) => {
+      setIsLoading(true);
+      try {
+      const response = await MovieAPI.movieReviews(movieId);
+      setData(response);
+    } catch (e) {
+      setError(e);
+    } finally {
+        setIsLoading(false);
+    }
+    }
+    
+    fetchReviews(movieId);
 
-        fetchData(Configs.movieReviews(movieId));
-    }, [movieId, fetchData]);
+    }, [movieId]);
 
   return (
       <div>

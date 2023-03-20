@@ -1,4 +1,5 @@
-import { StyledNavLink, StyledNav, Container } from "App.styled";
+import { Container } from "App.styled";
+import Header from "components/Header/Header";
 import Loader from "components/Loader/Loader";
 import React, { lazy, Suspense } from "react";
 import { Route, Routes, } from "react-router-dom";
@@ -12,17 +13,19 @@ const Reviews = lazy(() => import("./components/Reviews/Reviews"));
 export const App = () => {
   return (
     <Container className="App">
-      <StyledNav>
+      {/* <StyledNav>
         <StyledNavLink to="/">Home</StyledNavLink>
         <StyledNavLink to="/movies">Movies</StyledNavLink>
-      </StyledNav>
+      </StyledNav> */}
       <Suspense fallback={<Loader />}>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/movies" element={<Movies />} />
-        <Route path="/movies/:movieId" element={<MoviePage />}>
+        <Route path="/" element={<Header />} >
+            <Route index element={<HomePage />} />
+            <Route path="/movies" element={<Movies />} />
+          <Route path="/movies/:movieId" element={<MoviePage />}>
             <Route path="cast" element={<Cast />} />
             <Route path="reviews" element={<Reviews />} />
+          </Route>
         </Route>
       </Routes>
       </Suspense>

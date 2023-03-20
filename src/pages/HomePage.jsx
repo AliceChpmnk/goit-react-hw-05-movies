@@ -1,17 +1,28 @@
-import React, { useEffect } from 'react';
-import { useAxios } from 'hooks/useAxios';
-import * as Configs from '../services/moviedbConfigs';
+import React, { useEffect, useState } from 'react';
+import * as MovieAPI from '../services/moviedbAPI';
 
 import MoviesList from 'components/MoviesList/MoviesList';
 
 function HomePage() {
-    const { isLoading, data, error, fetchData } = useAxios();
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [movies, setMovies] = useState([]);
 
-    useEffect(() => {
-        fetchData(Configs.trendingMovies());
-    }, [fetchData]);
-        
-    const movies = data?.results;
+  useEffect(() => {
+    const fetchMovies = async () => {
+      setIsLoading(true);
+      try {
+      const response = await MovieAPI.trendingMovies();
+      setMovies(response.results);
+    } catch (e) {
+      setError(e);
+    } finally {
+        setIsLoading(false);
+    }
+    }
+    
+    fetchMovies();
+    }, []);
 
   return (
     <MoviesList movies={movies} error={error} isLoading={isLoading}/>

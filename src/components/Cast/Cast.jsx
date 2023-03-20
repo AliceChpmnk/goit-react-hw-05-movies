@@ -1,21 +1,34 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
-import { useAxios } from 'hooks/useAxios';
-import * as Configs from '../../services/moviedbConfigs';
+import * as MovieAPI from '../../services/moviedbAPI';
 
 import Loader from 'components/Loader/Loader';
 import { CastItem } from './Cast.styled';
 import DefaultAvatar from '../../images/default-avatar.jpg';
 
 export default function Cast() {
-    const { isLoading, data, error, fetchData } = useAxios();
+  const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [data, setData] = useState([]);
     const { movieId } = useParams();
 
     useEffect(() => {
-        if (!movieId) return;
+      if (!movieId) return;
+      const fetchCast = async (movieId) => {
+      setIsLoading(true);
+      try {
+      const response = await MovieAPI.movieCredits(movieId);
+      setData(response);
+    } catch (e) {
+      setError(e);
+    } finally {
+        setIsLoading(false);
+    }
+    }
+    
+    fetchCast(movieId);
 
-        fetchData(Configs.movieCredits(movieId));
-    }, [movieId, fetchData]);
+    }, [movieId]);
 
   return (
     <div>

@@ -1,27 +1,38 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import { useAxios } from 'hooks/useAxios';
-import * as Configs from '../services/moviedbConfigs';
+import * as MovieAPI from '../services/moviedbAPI';
 
 import MoviesList from 'components/MoviesList/MoviesList';
 import SearchForm from 'components/Search/SearchForm';
 
 function Movies() {
+    const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [movies, setMovies] = useState([]);
     const [searchParams, setSearchParams] = useSearchParams();
-    const { isLoading, data, error, fetchData } = useAxios();
     const query = searchParams.get('query');
 
     useEffect(() => {
         if (!query) return;
-        fetchData(Configs.moviesByQuery(query));
-    }, [query, fetchData]);
+    const fetchMovies = async (query) => {
+      setIsLoading(true);
+      try {
+      const response = await MovieAPI.moviesByQuery(query);
+      setMovies(response.results);
+    } catch (e) {
+      setError(e);
+    } finally {
+        setIsLoading(false);
+    }
+    }
+    
+    fetchMovies(query);
+    }, [query]);
 
     const handleFormSubmit = (name) => {
         setSearchParams({ query: name });
     }
-        
-    const movies = data?.results;
 
   return (
       <>
