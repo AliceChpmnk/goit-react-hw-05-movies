@@ -1,4 +1,3 @@
-import { Container } from "App.styled";
 import Header from "components/Header/Header";
 import Loader from "components/Loader/Loader";
 import React, { lazy, Suspense } from "react";
@@ -12,7 +11,6 @@ const Reviews = lazy(() => import("./components/Reviews/Reviews"));
 
 export const App = () => {
   return (
-    <Container>
       <Suspense fallback={<Loader />}>
       <Routes>
         <Route path="/" element={<Header />} >
@@ -25,6 +23,5 @@ export const App = () => {
         </Route>
       </Routes>
       </Suspense>
-    </Container>
   );
 };
