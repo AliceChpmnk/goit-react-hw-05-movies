@@ -13,10 +13,6 @@ const Reviews = lazy(() => import("./components/Reviews/Reviews"));
 export const App = () => {
   return (
     <Container className="App">
-      {/* <StyledNav>
-        <StyledNavLink to="/">Home</StyledNavLink>
-        <StyledNavLink to="/movies">Movies</StyledNavLink>
-      </StyledNav> */}
       <Suspense fallback={<Loader />}>
       <Routes>
         <Route path="/" element={<Header />} >
