@@ -12,7 +12,7 @@ const Reviews = lazy(() => import("./components/Reviews/Reviews"));
 
 export const App = () => {
   return (
-    <Container className="App">
+    <Container>
       <Suspense fallback={<Loader />}>
       <Routes>
         <Route path="/" element={<Header />} >
